@@ -1,0 +1,48 @@
+
+<div>
+  <input type="text" placeholder="event name" #name> 
+  <button (click)="addevent( name.value )">add event</button>
+  <button (click)="addevent_2(name.value )">add event 2</button>
+</div>
+<br><br>
+-------event_snapshot_items-------------<br>
+participant
+<input type="text" #Participant>
+<ul>
+  <li *ngFor="let item of event_snapshot_items$ | async">
+   date : {{ item.event_date | date }} -- id {{item.id}} --   --name: {{ item.name }} == create {{ item.created_by }} <br> 
+   participant {{ item.participant_arr }} <br>
+    <button (click)="edit_event(item.id)"> edit_event </button>
+    <button (click)="edit_event_2(item.id, item.event_date)"> edit_event 2</button>
+    <button (click)="add_participant(item.id, Participant.value, item.event_date)"> add_participant </button>
+    <button (click)="add_participant_2(item.id, Participant.value, item.event_date)"> add_participant_2 </button>
+  </li>
+</ul>
+
+
+
+
+
+
+<div>
+  some person's app-event
+  <input type="text" #ParticipantForQuery>
+  <button (click)="list_event_with_participantname(ParticipantForQuery.value)">　list_event_with_participantname　</button>
+  
+
+
+  <br>
+  <ul>
+    <li *ngFor="let item of event_items_participant_time_query$ | async">
+      name: {{ item.name }} - -<br> participant {{ item.participant_obj | json }} 
+    </li>
+  </ul>
+
+
+</div>
+
+
+
+
+<button (click)="login()"> login </button>
+<button (click)="logout()"> logout </button>
