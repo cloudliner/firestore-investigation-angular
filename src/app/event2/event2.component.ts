@@ -74,14 +74,12 @@ interface EventInfo {
   group_id_date: {[key: string]: Date};
   title: string;
 }
-
 interface EventItem {
   created_by: string;
   admin: {[key: string]: boolean};
   info: EventInfo;
   participats?: UserParticipate;
 }
-
 interface EventItemWithId extends EventItem {
   id: string;
   participant_arr: string[];
@@ -220,11 +218,12 @@ export class Event2Component implements OnInit {
     this.groupCollection.add({name: group_name});
   }
 
-  create_new_event(event_name: string, owner_id: string, group_id: string, event_date: Date) {
+  create_new_event(event_name: string, owner_id: string, group_id: string, event_date: string, event_time: string) {
+    const event_date_time = new Date(event_date + ' ' + event_time);
     const group_date = {};
-    group_date[group_id] = event_date;
+    group_date[group_id] = event_date_time;
     const own_participate_data = {};
-    own_participate_data[owner_id] = event_date;
+    own_participate_data[owner_id] = event_date_time;
     const own_admin = {};
     own_admin[owner_id] = true;
 
@@ -232,7 +231,7 @@ export class Event2Component implements OnInit {
       created_by: owner_id,
       admin: own_admin,
       info: {
-        event_date: event_date,
+        event_date: event_date_time,
         group_id: group_id,
         group_id_date: group_date,
         title: event_name

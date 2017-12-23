@@ -25,8 +25,9 @@
       {{groupWithId.name}}
     </option>
   </select>
-  <input type="date" placeholder="Date" #eventDate> 
-  <button (click)="create_new_event(eventName.value, ownerId.value, groupId.value, eventDate.value )">Create New Event</button>
+  <input type="date" placeholder="Date" #eventDate>
+  <input type="time" placeholder="Time" #eventTime>
+  <button (click)="create_new_event(eventName.value, ownerId.value, groupId.value, eventDate.value, eventTime.value)">Create New Event</button>
 </div>
 <br>
 
