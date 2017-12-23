@@ -48,6 +48,7 @@ import { UserAuthService } from './../user-auth.service';
 
 */
 
+// users
 interface User {
   name: string;
 }
@@ -55,12 +56,15 @@ interface UserWithId extends User {
   id: string;
 }
 
+// groups
 interface Group {
   name: string;
 }
 interface GroupWithId extends Group {
   id: string;
 }
+
+// events
 interface UserParticipate {
   [key: string]: Date;
 }
@@ -247,5 +251,31 @@ export class Event2Component implements OnInit {
 
   create_group(group_name: string) {
     this.groupCollection.add({name: group_name});
+  }
+
+  create_new_event(event_name: string, owner_id: string, group_id: string, event_date: Date) {
+    const group_date = {};
+    group_date[group_id] = event_date;
+    const own_participate_data = {};
+    own_participate_data[owner_id] = event_date;
+    const own_admin = {};
+    own_admin[owner_id] = true;
+
+    const event_data: EventItem = {
+      created_by: owner_id,
+      admin: own_admin,
+      info: {
+        event_date: event_date,
+        group_id: group_id,
+        group_id_date: group_date,
+        title: event_name
+      },
+      participats: own_participate_data
+    };
+    this.event_itemsCollection.add(event_data).then(() => {
+      console.log('event created');
+    }).catch((err) => {
+      console.log('errror', err);
+    });
   }
 }

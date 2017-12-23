@@ -1,47 +1,36 @@
-<p>
-  event2 works!
-</p>
--- User List --
+-- User --
 <div>
-  <input type="text" placeholder="User Name" #user_name> 
-  <button (click)="create_user(user_name.value)">Create User</button>
+  <input type="text" placeholder="User Name" #userName> 
+  <button (click)="create_user(userName.value)">Create User</button>
 </div>
+<br>
+
+-- Group --
 <div>
-  <select name="user" ngModel>
-    <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
-      {{userWithId.name}}
-    </option>
+  <input type="text" placeholder="Group Name" #groupName> 
+  <button (click)="create_group(groupName.value)">Create Group</button>
+</div>
+<br>
+
+-- Create New Event --
+<div>
+  <input type="text" placeholder="Event Name" #eventName>
+  <select name="user" placeholder="Owner" ngModel #ownerId>
+      <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
+        {{userWithId.name}}
+      </option>
   </select>
-</div>
--- Group List --
-<div>
-  <input type="text" placeholder="Group Name" #group_name> 
-  <button (click)="create_group(group_name.value)">Create Group</button>
-</div>
-<div>
-  <select name="group" ngModel>
+  <select name="group" placeholder="Group" ngModel #groupId>
     <option *ngFor="let groupWithId of group_list | async" value="{{groupWithId.id}}">
       {{groupWithId.name}}
     </option>
   </select>
+  <input type="date" placeholder="Date" #eventDate> 
+  <button (click)="create_new_event(eventName.value, ownerId.value, groupId.value, eventDate.value )">Create New Event</button>
 </div>
+<br>
 
-------- create edit group -------------
-
-
-
--------------------------
-
-
-
-<div>
-  <input type="text" placeholder="event name" #name> 
-  <input type="text" placeholder="group id" #group_id> 
-  <input type="number" placeholder="number date" #number> 
-  <button (click)="create_event( name.value, group_id.value, number.value )">add create_event</button>
-</div>
-<br><br>
--------event_snapshot_items-------------<br>
+-- Events --
 participant
 <input type="text" #Participant>
 <ul>
