@@ -169,39 +169,6 @@ export class Event2Component implements OnInit {
         return Object.assign(event_item, {participant_arr});
       });
     });
-
-  }
-  create_event(title: string, group_id: string = 'aaa', date_num: number = 1) {
-    const own_user_id = this.userAuthService.get_own_id();
-    if (!own_user_id) {
-      return;
-    }
-
-    const event_date = new Date(Date.now() + date_num * 1000 * 60 * 60 * 24);
-
-    const group_date = {};
-    group_date[group_id] = event_date;
-    const own_participate_data = {};
-    own_participate_data[own_user_id] = event_date;
-    const own_admin = {};
-    own_admin[own_user_id] = true;
-
-    const event_data: EventItem = {
-      created_by: own_user_id,
-      admin: own_admin,
-      info: {
-        event_date: event_date,
-        group_id: group_id,
-        group_id_date: group_date,
-        title: title
-      },
-      participats: own_participate_data
-    };
-    this.event_itemsCollection.add(event_data).then(() => {
-      console.log('event created');
-    }).catch((err) => {
-      console.log('errror', err);
-    });
   }
 
   edit_event() {
