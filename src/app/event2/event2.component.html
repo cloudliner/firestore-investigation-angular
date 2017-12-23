@@ -6,7 +6,11 @@
   <input type="text" placeholder="User Name" #user_name> 
   <button (click)="create_user(user_name.value)">Create User</button>
 </div>
-
+<div>
+  <ul *ngFor="let userWithId of user_list | async">
+    <li>ID: {{userWithId.id}} / Name: {{userWithId.name}}</li>
+  </ul>
+</div>
 ------- create edit group -------------
 
 

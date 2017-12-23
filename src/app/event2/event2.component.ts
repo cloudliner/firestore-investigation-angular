@@ -97,6 +97,15 @@ export class Event2Component implements OnInit {
 
   event_itemsCollection = this.afs.collection<EventItem>('event_related-event2');
 
+  userCollection: AngularFirestoreCollection<User> = this.afs.collection('users');
+  user_list: Observable<UserWithId[]> = this.userCollection.snapshotChanges().map(actions => {
+    return actions.map(a => {
+      const data = a.payload.doc.data() as User;
+      const id = a.payload.doc.id;
+      return { id, ...data };
+    })
+  });
+
   ngOnInit() {
 
   // all event
