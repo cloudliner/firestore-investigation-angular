@@ -115,7 +115,7 @@ export class Event2Component implements OnInit {
     // (2) userを指定し、userの所属する複数のグループのイベントを並べる
     // (3) userが参加した、過去のイベントも含めて全て並べる
   // group related
-    // (4) grouopを指定し、eventを時間で並べる
+    // (4) groupを指定し、eventを時間で並べる
     // (5) groupを指定し、eventの時間でならべつつ、ユーザのIDがマッチするものを探す
     // (6) groupを指定し、過去のものも含めて全てのイベントを並べる
 
