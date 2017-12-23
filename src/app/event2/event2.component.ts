@@ -188,17 +188,16 @@ export class Event2Component implements OnInit {
 
   }
 
-  filter_event(userid_filter: string, group_id_filter: string, number_filter: number ) {
+  filter_event(user_filter: string, group_filter: string, date_filter: string, time_filter: string) {
 
-    this.group_name_query$.next(group_id_filter);
-    this.userid_query$.next(userid_filter);
+    this.group_name_query$.next(group_filter);
+    this.userid_query$.next(user_filter);
 
     let event_date_filter = null;
-    if (number_filter) {
-      event_date_filter = new Date(Date.now() + number_filter * 1000 * 60 * 60 * 24);
+    if (date_filter && time_filter) {
+      event_date_filter = new Date(date_filter + ' ' + time_filter);
     }
     this.event_date_query$.next(event_date_filter);
-
   }
 
 

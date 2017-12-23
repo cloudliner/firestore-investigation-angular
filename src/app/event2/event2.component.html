@@ -16,9 +16,9 @@
 <div>
   <input type="text" placeholder="Event Name" #eventName>
   <select name="user" placeholder="Owner" ngModel #ownerId>
-      <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
-        {{userWithId.name}}
-      </option>
+    <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
+      {{userWithId.name}}
+    </option>
   </select>
   <select name="group" placeholder="Group" ngModel #groupId>
     <option *ngFor="let groupWithId of group_list | async" value="{{groupWithId.id}}">
@@ -32,6 +32,7 @@
 <br>
 
 -- Events --
+<br>
 participant
 <input type="text" #Participant>
 <ul>
@@ -47,14 +48,26 @@ participant
   </li>
 </ul>
 
+-- Filter --
 <div>
-  <input type="text" placeholder="userid" #userid_filter> 
-  <input type="text" placeholder="group id" #group_id_filter> 
-  <input type="number" placeholder="number date" #number_filter> 
-  <button (click)="filter_event( userid_filter.value, group_id_filter.value, number_filter.value )">filter_event</button>
+  <select name="user" placeholder="User" ngModel #userFilter>
+    <option></option>
+    <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
+      {{userWithId.name}}
+    </option>
+  </select>
+  <select name="group" placeholder="Group" ngModel #groupFilter>
+    <option></option>
+    <option *ngFor="let groupWithId of group_list | async" value="{{groupWithId.id}}">
+      {{groupWithId.name}}
+    </option>
+  </select>
+  <input type="date" placeholder="Date" #dateFilter>
+  <input type="time" placeholder="Time" #timeFilter>
+  <button (click)="filter_event(userFilter.value, groupFilter.value, dateFilter.value, timeFilter.value)">Filter Event</button>
 </div>
+<br>
 
-
-
+-- Login / Logout --
 <button (click)="login()"> login </button>
 <button (click)="logout()"> logout </button>
