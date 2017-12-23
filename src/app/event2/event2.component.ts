@@ -109,7 +109,15 @@ export class Event2Component implements OnInit {
 
     this.event_list$ =
     combined.switchMap(([group_id, userid, event_date ]) => {
-      if (group_id && !event_date) {
+      if (group_id && userid && event_date) {
+        return this.afs.collection<EventItem>('event_related-event2', (ref) => {
+          return ref.where(`participants.${userid}`, '>', event_date);
+        }).snapshotChanges().map((actions) => {
+          return actions.filter((action) => {
+            return action.payload.doc.data().info.group_id === group_id;
+          });
+        });
+      }  else if (group_id && !userid && !event_date) {
         return this.afs.collection<EventItem>('event_related-event2', (ref) => {
           return ref.where('info.group_id', '==', group_id);
         }).snapshotChanges();

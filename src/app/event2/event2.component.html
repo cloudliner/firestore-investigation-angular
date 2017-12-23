@@ -21,10 +21,9 @@ participant
 <input type="text" #Participant>
 <ul>
   <li *ngFor="let item of event_list$ | async">
-   title : {{ item.info?.title }}<br> 
-   id {{item.id}} <br> 
-   created_by: {{ item.created_by }}<br> 
-   event_date: {{ item.info?.event_date | date }} <br> 
+    event_date: {{ item.info?.event_date | date }} <br>
+   title : {{ item.info?.title }} id {{item.id}} <br> 
+   created_by: {{ item.created_by }}<br>  
    group_id: {{ item.info?.group_id }} <br> 
    participant {{ item.participant_arr }} <br>
     <button (click)="edit_event(item.id)"> edit_event </button>
