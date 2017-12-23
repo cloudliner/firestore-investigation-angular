@@ -62,7 +62,7 @@ interface EventItem {
   created_by: string;
   admin: {[key: string]: boolean};
   info: EventInfo;
-  participats?: UserParticipate;
+  participants?: UserParticipate;
 }
 
 interface EventItemWithId extends EventItem {
@@ -113,7 +113,15 @@ export class Event2Component implements OnInit {
         return this.afs.collection<EventItem>('event_related-event2', (ref) => {
           return ref.where('info.group_id', '==', group_id);
         }).snapshotChanges();
-      }else {
+      }else if (userid && event_date) {
+        return this.afs.collection<EventItem>('event_related-event2', (ref) => {
+          return ref.where(`participants.${userid}`, '>', event_date);
+        }).snapshotChanges();
+      }else if (userid) {
+        return this.afs.collection<EventItem>('event_related-event2', (ref) => {
+          return ref.where(`participants.${userid}`, '>', new Date(0));
+        }).snapshotChanges();
+      } else {
         return this.afs.collection<EventItem>('event_related-event2').snapshotChanges();
       }
     }).map(actions => {
@@ -126,7 +134,7 @@ export class Event2Component implements OnInit {
     })
     .map((data: EventItemWithId[]) => {
       return data.map((event_item: EventItemWithId) => {
-        const participant_obj = event_item.participats;
+        const participant_obj = event_item.participants;
         const participant_arr: string[] = [];
         for (const key in participant_obj) {
           participant_arr.push(key);
@@ -134,9 +142,10 @@ export class Event2Component implements OnInit {
         return Object.assign(event_item, {participant_arr});
       });
     });
-
   }
+
   create_event(title: string, group_id: string = 'aaa', date_num: number = 1) {
+
     const own_user_id = this.userAuthService.get_own_id();
     if (!own_user_id) {
       return;
@@ -160,7 +169,7 @@ export class Event2Component implements OnInit {
         group_id_date: group_date,
         title: title
       },
-      participats: own_participate_data
+      participants: own_participate_data
     };
     this.event_itemsCollection.add(event_data).then(() => {
       console.log('event created');
@@ -172,8 +181,22 @@ export class Event2Component implements OnInit {
   edit_event() {
 
   }
-  add_participant(event_id) {
+  add_participant(event_id, event_date) {
     console.log('add participant');
+
+    const own_user_id = this.userAuthService.get_own_id();
+    if (!own_user_id) {
+      return;
+    }
+    const participant: any = {};
+    participant[`participants.${own_user_id}`] = event_date;
+    this.afs.collection<EventItem>('event_related-event2').doc(event_id).update(participant)
+      .then(() => {
+        console.log('participant added', own_user_id);
+      }).catch(() => {
+        console.log('adding participant failed');
+      });
+
   }
 
   join_event() {
@@ -184,6 +207,7 @@ export class Event2Component implements OnInit {
   query_by_grouop(group_id) {
 
   }
+
   query_by_user(userid) {
 
   }

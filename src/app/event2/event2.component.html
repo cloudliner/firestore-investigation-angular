@@ -28,7 +28,7 @@ participant
    group_id: {{ item.info?.group_id }} <br> 
    participant {{ item.participant_arr }} <br>
     <button (click)="edit_event(item.id)"> edit_event </button>
-    <button (click)="add_participant(item.id)"> add_participant </button>
+    <button (click)="add_participant(item.id, item.info.event_date )"> add_participant </button>
   </li>
 </ul>
 
