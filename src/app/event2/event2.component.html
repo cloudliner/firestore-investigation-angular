@@ -13,6 +13,19 @@
     </option>
   </select>
 </div>
+-- Group List --
+<div>
+  <input type="text" placeholder="Group Name" #group_name> 
+  <button (click)="create_group(group_name.value)">Create Group</button>
+</div>
+<div>
+  <select name="group" ngModel>
+    <option *ngFor="let groupWithId of group_list | async" value="{{groupWithId.id}}">
+      {{groupWithId.name}}
+    </option>
+  </select>
+</div>
+
 ------- create edit group -------------
 
 

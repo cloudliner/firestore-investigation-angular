@@ -51,11 +51,16 @@ import { UserAuthService } from './../user-auth.service';
 interface User {
   name: string;
 }
-
 interface UserWithId extends User {
   id: string;
 }
 
+interface Group {
+  name: string;
+}
+interface GroupWithId extends Group {
+  id: string;
+}
 interface UserParticipate {
   [key: string]: Date;
 }
@@ -101,6 +106,15 @@ export class Event2Component implements OnInit {
   user_list: Observable<UserWithId[]> = this.userCollection.snapshotChanges().map(actions => {
     return actions.map(a => {
       const data = a.payload.doc.data() as User;
+      const id = a.payload.doc.id;
+      return { id, ...data };
+    })
+  });
+
+  groupCollection: AngularFirestoreCollection<Group> = this.afs.collection('groups');
+  group_list: Observable<GroupWithId[]> = this.groupCollection.snapshotChanges().map(actions => {
+    return actions.map(a => {
+      const data = a.payload.doc.data() as Group;
       const id = a.payload.doc.id;
       return { id, ...data };
     })
@@ -228,7 +242,10 @@ export class Event2Component implements OnInit {
   }
 
   create_user(user_name: string) {
-    let user_colection = this.afs.collection<User>('users');
-    user_colection.add({name: user_name});
+    this.userCollection.add({name: user_name});
+  }
+
+  create_group(group_name: string) {
+    this.groupCollection.add({name: group_name});
   }
 }
