@@ -12,12 +12,14 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { UserAuthService } from './user-auth.service';
 import { SecurityTestComponent } from './security-test/security-test.component';
+import { Event2Component } from './event2/event2.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EventComponent,
-    SecurityTestComponent
+    SecurityTestComponent,
+    Event2Component
   ],
   imports: [
     BrowserModule,

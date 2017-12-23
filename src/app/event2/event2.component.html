@@ -1,0 +1,45 @@
+<p>
+  event2 works!
+</p>
+------- create edit group -------------
+
+
+
+-------------------------
+
+
+
+<div>
+  <input type="text" placeholder="event name" #name> 
+  <input type="text" placeholder="group id" #group_id> 
+  <input type="number" placeholder="number date" #number> 
+  <button (click)="create_event( name.value, group_id.value, number.value )">add create_event</button>
+</div>
+<br><br>
+-------event_snapshot_items-------------<br>
+participant
+<input type="text" #Participant>
+<ul>
+  <li *ngFor="let item of event_list$ | async">
+   title : {{ item.info?.title }}<br> 
+   id {{item.id}} <br> 
+   created_by: {{ item.created_by }}<br> 
+   event_date: {{ item.info?.event_date | date }} <br> 
+   group_id: {{ item.info?.group_id }} <br> 
+   participant {{ item.participant_arr }} <br>
+    <button (click)="edit_event(item.id)"> edit_event </button>
+    <button (click)="add_participant(item.id)"> add_participant </button>
+  </li>
+</ul>
+
+<div>
+  <input type="text" placeholder="userid" #userid_filter> 
+  <input type="text" placeholder="group id" #group_id_filter> 
+  <input type="number" placeholder="number date" #number_filter> 
+  <button (click)="filter_event( userid_filter.value, group_id_filter.value, number_filter.value )">filter_event</button>
+</div>
+
+
+
+<button (click)="login()"> login </button>
+<button (click)="logout()"> logout </button>
