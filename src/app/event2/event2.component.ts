@@ -48,6 +48,14 @@ import { UserAuthService } from './../user-auth.service';
 
 */
 
+interface User {
+  name: string;
+}
+
+interface UserWithId extends User {
+  id: string;
+}
+
 interface UserParticipate {
   [key: string]: Date;
 }
@@ -210,6 +218,8 @@ export class Event2Component implements OnInit {
     this.userAuthService.logout();
   }
 
-
-
+  create_user(user_name: string) {
+    let user_colection = this.afs.collection<User>('users');
+    user_colection.add({name: user_name});
+  }
 }
