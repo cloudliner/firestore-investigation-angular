@@ -75,13 +75,13 @@ interface UserParticipate {
 interface EventInfo {
   event_date: Date;
   group_id: string;
-  group_name$: Observable<Group>;
+  group_name$?: Observable<Group>;
   group_id_date: {[key: string]: Date};
   title: string;
 }
 interface EventItem {
   created_by: string;
-  created_by_name$: Observable<User>;
+  created_by_name$?: Observable<User>;
   admin: {[key: string]: boolean};
   info: EventInfo;
   participats?: UserParticipate;
@@ -238,12 +238,10 @@ export class Event2Component implements OnInit {
 
     const event_data: EventItem = {
       created_by: owner_id,
-      created_by_name$: this.find_user(owner_id);
       admin: own_admin,
       info: {
         event_date: event_date_time,
         group_id: group_id,
-        group_name$: this.find_group(group_id),
         group_id_date: group_date,
         title: event_name
       },
