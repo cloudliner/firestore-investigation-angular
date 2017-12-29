@@ -16,12 +16,12 @@
 <div>
   <input type="text" placeholder="Event Name" #eventName>
   <select name="user" placeholder="Owner" ngModel #ownerId>
-    <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
+    <option *ngFor="let userWithId of user_list$ | async" value="{{userWithId.id}}">
       {{userWithId.name}}
     </option>
   </select>
   <select name="group" placeholder="Group" ngModel #groupId>
-    <option *ngFor="let groupWithId of group_list | async" value="{{groupWithId.id}}">
+    <option *ngFor="let groupWithId of group_list$ | async" value="{{groupWithId.id}}">
       {{groupWithId.name}}
     </option>
   </select>
@@ -39,7 +39,7 @@ participant
   <li *ngFor="let item of event_list$ | async">
    title : {{ item.info?.title }}<br> 
    id {{item.id}} <br> 
-   created_by: {{ item.created_by }}<br> 
+   created_by: {{ item.created_by }} <br>
    event_date: {{ item.info?.event_date | date }} <br> 
    group_id: {{ item.info?.group_id }} <br> 
    participant {{ item.participant_arr }} <br>
@@ -50,16 +50,18 @@ participant
 
 -- Filter --
 <div>
-  <select name="user" placeholder="User" ngModel #userFilter>
-    <option></option>
-    <option *ngFor="let userWithId of user_list | async" value="{{userWithId.id}}">
-      {{userWithId.name}}
-    </option>
-  </select>
+  <label>Group:</label>
   <select name="group" placeholder="Group" ngModel #groupFilter>
     <option></option>
-    <option *ngFor="let groupWithId of group_list | async" value="{{groupWithId.id}}">
+    <option *ngFor="let groupWithId of group_list$ | async" value="{{groupWithId.id}}">
       {{groupWithId.name}}
+    </option>
+  </select>
+  <label>User:</label>
+  <select name="user" placeholder="User" ngModel #userFilter>
+    <option></option>
+    <option *ngFor="let userWithId of user_list$ | async" value="{{userWithId.id}}">
+      {{userWithId.name}}
     </option>
   </select>
   <input type="date" placeholder="Date" #dateFilter>
@@ -69,5 +71,14 @@ participant
 <br>
 
 -- Login / Logout --
+<br>
 <button (click)="login()"> login </button>
 <button (click)="logout()"> logout </button>
+<br>
+
+-- Test --
+<br>
+<button (click)="test()">Test</button>
+<br>
+<p>{{ test_user$ | async | json }}</p>
+<p>{{ (test_user$ | async)?.name }}</p>

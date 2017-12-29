@@ -48,6 +48,10 @@ import { UserAuthService } from './../user-auth.service';
 
 */
 
+interface SearchList<T> extends Observable<T[]> {
+  find(id: string): T;
+}
+
 // users
 interface User {
   name: string;
@@ -105,22 +109,25 @@ export class Event2Component implements OnInit {
   event_itemsCollection = this.afs.collection<EventItem>('event_related-event2');
 
   userCollection: AngularFirestoreCollection<User> = this.afs.collection('users');
-  user_list: Observable<UserWithId[]> = this.userCollection.snapshotChanges().map(actions => {
+  user_list$: Observable<UserWithId[]> = this.userCollection.snapshotChanges().map(actions => {
     return actions.map(a => {
       const data = a.payload.doc.data() as User;
       const id = a.payload.doc.id;
       return { id, ...data };
     })
-  });
+  }) as SearchList<UserWithId>;
 
   groupCollection: AngularFirestoreCollection<Group> = this.afs.collection('groups');
-  group_list: Observable<GroupWithId[]> = this.groupCollection.snapshotChanges().map(actions => {
+  group_list$: Observable<GroupWithId[]> = this.groupCollection.snapshotChanges().map(actions => {
     return actions.map(a => {
       const data = a.payload.doc.data() as Group;
       const id = a.payload.doc.id;
       return { id, ...data };
     })
   });
+
+  // for test
+  test_user$ = this.find_user('Y757r3aFohmQ3oxOcqou');
 
   ngOnInit() {
 
@@ -200,7 +207,6 @@ export class Event2Component implements OnInit {
     this.event_date_query$.next(event_date_filter);
   }
 
-
   login() {
     this.userAuthService.login();
   }
@@ -242,5 +248,16 @@ export class Event2Component implements OnInit {
     }).catch((err) => {
       console.log('errror', err);
     });
+  }
+
+  find_user(id: string): Observable<User> {
+    let user: Observable<User> = this.afs.doc<User>('users/' + id).valueChanges();
+    return user;
+  }
+
+  test() {
+    let temp_user:Observable<User> = this.find_user('Y757r3aFohmQ3oxOcqou');
+    console.log(temp_user);
+    console.log(temp_user['name']);
   }
 }
