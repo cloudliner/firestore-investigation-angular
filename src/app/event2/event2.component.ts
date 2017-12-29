@@ -243,7 +243,7 @@ export class Event2Component implements OnInit {
       info: {
         event_date: event_date_time,
         group_id: group_id,
-        group_name: this.find_group(group_id),
+        group_name$: this.find_group(group_id),
         group_id_date: group_date,
         title: event_name
       },
