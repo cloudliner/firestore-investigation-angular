@@ -39,9 +39,9 @@ participant
   <li *ngFor="let item of event_list$ | async">
    title : {{ item.info?.title }}<br> 
    id {{item.id}} <br> 
-   created_by: {{ item.created_by }} <br>
+   created_by: {{ item.created_by }} ({{ (item.created_by_name$ | async)?.name }})<br>
    event_date: {{ item.info?.event_date | date }} <br> 
-   group_id: {{ item.info?.group_id }} <br> 
+   group_id: {{ item.info?.group_id }} ({{ (item.info.group_name$ | async)?.name }})<br> 
    participant {{ item.participant_arr }} <br>
     <button (click)="edit_event(item.id)"> edit_event </button>
     <button (click)="add_participant(item.id)"> add_participant </button>

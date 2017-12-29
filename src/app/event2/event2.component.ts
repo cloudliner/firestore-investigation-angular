@@ -75,11 +75,13 @@ interface UserParticipate {
 interface EventInfo {
   event_date: Date;
   group_id: string;
+  group_name$: Observable<Group>;
   group_id_date: {[key: string]: Date};
   title: string;
 }
 interface EventItem {
   created_by: string;
+  created_by_name$: Observable<User>;
   admin: {[key: string]: boolean};
   info: EventInfo;
   participats?: UserParticipate;
@@ -127,7 +129,7 @@ export class Event2Component implements OnInit {
   });
 
   // for test
-  test_user$ = this.find_user('Y757r3aFohmQ3oxOcqou');
+  test_user$ = this.find_user('23DN4H9GpU2fUFHWWvUX');
 
   ngOnInit() {
 
@@ -160,6 +162,8 @@ export class Event2Component implements OnInit {
       return actions.map( (a) => {
         const type = a.type;
         const data = a.payload.doc.data() as EventItem;
+        data.created_by_name$ = this.find_user(data.created_by);
+        data.info.group_name$ = this.find_group(data.info.group_id);
         const id = a.payload.doc.id;
         return {id, ...data};
       });
@@ -234,10 +238,12 @@ export class Event2Component implements OnInit {
 
     const event_data: EventItem = {
       created_by: owner_id,
+      created_by_name$: this.find_user(owner_id);
       admin: own_admin,
       info: {
         event_date: event_date_time,
         group_id: group_id,
+        group_name: this.find_group(group_id),
         group_id_date: group_date,
         title: event_name
       },
@@ -255,8 +261,13 @@ export class Event2Component implements OnInit {
     return user;
   }
 
+  find_group(id: string): Observable<Group> {
+    let group: Observable<Group> = this.afs.doc<Group>('groups/' + id).valueChanges();
+    return group;
+  }
+
   test() {
-    let temp_user:Observable<User> = this.find_user('Y757r3aFohmQ3oxOcqou');
+    let temp_user:Observable<User> = this.find_user('23DN4H9GpU2fUFHWWvUX');
     console.log(temp_user);
     console.log(temp_user['name']);
   }
